@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="logo.png">
+<title>[Nome Appartamento] — Guest Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+/* ... Mantengo tutto il tuo CSS originale intatto ... */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dim:#9A7A35;
+  --navy:#1E2B3A;--navy-mid:#2C3E52;
+  --cream:#F5F0E8;--cream-dark:#EDE6D6;
+  --white:#FFFFFF;--muted:#8A8070;
+  --border:rgba(201,168,76,0.18);--radius:18px;
+  --shadow:0 4px 24px rgba(30,43,58,0.13);
+  --green-pharma: #28a745;
+  --scroll: 0;
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--navy);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.top-fab {
+  position: fixed;
+  top: calc(24px - (var(--scroll) * 12px)); 
+  width: 44px; height: 44px;
+  background: transparent; border: none; box-shadow: none;
+  color: var(--gold-light); font-size: 1.5rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 200;
+}
+.top-fab:hover { color: var(--white); transform: scale(1.15); }
+.fab-left { left: 18px; }
+.fab-right { right: 18px; }
+
+.lang-drawer{
+  position:fixed;
+  top: calc(76px - (var(--scroll) * 12px));
+  right:18px;background:rgba(30,43,58,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,0.4);border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;gap:6px;z-index:199;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(-10px) scale(0.95);pointer-events:none;
+  transition: opacity .22s ease, transform .22s ease;
+}
+.lang-drawer.open{opacity:1;transform:none;pointer-events:all}
+.lang-btn{background:transparent;border:1px solid rgba(201,168,76,0.25);color:rgba(255,255,255,0.7);padding:7px 16px;border-radius:20px;font-size:0.82rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s;font-weight:500;text-align:left;white-space:nowrap}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,0.08)}
+.lang-btn.active{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:700}
+
+.sidebar-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:299;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.sidebar-overlay.open{opacity:1;pointer-events:all}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--navy);z-index:300;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);box-shadow:4px 0 24px rgba(0,0,0,0.3);padding:30px 20px;display:flex;flex-direction:column}
+.sidebar.open{transform:translateX(0)}
+.sidebar-logo{width:120px;margin-bottom:30px}
+.menu-link{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.7);text-decoration:none;padding:14px 12px;border-radius:12px;font-size:1.05rem;font-weight:500;margin-bottom:8px;transition:all 0.2s;cursor:pointer}
+.menu-link i{font-size:1.2rem;color:var(--gold-dim);width:24px;text-align:center}
+.menu-link:hover, .menu-link.active{background:rgba(201,168,76,0.1);color:var(--white)}
+.menu-link.active i{color:var(--gold)}
+
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 150;
+  background: var(--navy);
+  text-align: center;
+  overflow: hidden;
+  padding-top: calc(32px - (var(--scroll) * 22px));
+  padding-bottom: calc(28px - (var(--scroll) * 18px));
+  box-shadow: 0 4px calc(var(--scroll) * 16px) rgba(0,0,0,calc(var(--scroll) * 0.6));
+}
+
+.header-bg {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('header.jpg');
+  background-size: cover;
+  background-position: center 40%;
+  z-index: -3;
+}
+
+.header-bg::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgba(30,43,58,0.72) 0%, rgba(30,43,58,0.82) 60%, rgba(30,43,58,0.95) 100%);
+}
+
+.header-dark-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--navy);
+  opacity: calc(var(--scroll) * 0.98); 
+  z-index: -2;
+  pointer-events: none;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-wrap {
+  display: flex; justify-content: center;
+  margin-bottom: calc(14px - (var(--scroll) * 14px)); 
+}
+.logo-img {
+  width: auto; object-fit: contain;
+  height: calc(180px - (var(--scroll) * 130px)); 
+}
+
+.text-wrap {
+  overflow: hidden;
+  max-height: calc(200px - (var(--scroll) * 200px));
+  opacity: calc(1 - (var(--scroll) * 2));
+  transform: scale(calc(1 - (var(--scroll) * 0.2)));
+  transform-origin: top center;
+}
+
+.header h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.9rem,6vw,2.6rem);
+  font-weight:700;color:#FFFFFF;line-height:1.1;
+  margin-bottom:6px;
+  text-shadow:0 2px 8px rgba(0,0,0,0.9),0 0 30px rgba(0,0,0,0.8);
+}
+.header-address{font-size:.8rem;color:rgba(255,255,255,0.4);font-weight:300;letter-spacing:.06em;}
+.gold-line{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:12px auto 0;}
+
+.host-fab{position:fixed;bottom:20px;right:18px;width:48px;height:48px;border-radius:50%;background:#25D366;border:1.5px solid rgba(255,255,255,0.3);color:#fff;font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;box-shadow:0 4px 16px rgba(37,211,102,0.5);transition:background .2s,transform .2s}
+.host-fab:hover{background:#1eae57;transform:scale(1.08)}
+.host-drawer{position:fixed;bottom:78px;right:18px;background:var(--navy);border:1px solid var(--gold-dim);border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;gap:6px;z-index:199;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(10px) scale(0.95);pointer-events:none;transition:opacity .22s ease,transform .22s ease;min-width:160px}
+.host-drawer.open{opacity:1;transform:none;pointer-events:all}
+.host-drawer-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);padding:2px 10px 4px;border-bottom:1px solid rgba(201,168,76,0.15);margin-bottom:2px}
+
+.emerg-fab{position:fixed;bottom:20px;left:18px;width:48px;height:48px;border-radius:50%;background:var(--navy);border:1.5px solid var(--gold-dim);color:var(--gold-light);font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.35);transition:background .2s,transform .2s}
+.emerg-fab:hover{background:var(--navy-mid);transform:scale(1.08)}
+.emerg-drawer{position:fixed;bottom:78px;left:18px;background:var(--navy);border:1px solid #D93025;border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;gap:6px;z-index:199;box-shadow:0 8px 32px rgba(0,0,0,0.4);opacity:0;transform:translateY(10px) scale(0.95);pointer-events:none;transition:opacity .22s ease,transform .22s ease;min-width:180px}
+.emerg-drawer.open{opacity:1;transform:none;pointer-events:all}
+.emerg-drawer-label {font-size: .7rem;font-weight: 600;letter-spacing: .1em;text-transform: uppercase;color: var(--gold-dim);padding: 2px 10px 4px;border-bottom: 1px solid rgba(201,168,76,0.15);margin-bottom: 2px;}
+.host-action-btn{display:flex;align-items:center;gap:10px;background:transparent;border:1px solid rgba(201,168,76,0.25);color:rgba(255,255,255,0.8);padding:9px 14px;border-radius:10px;font-size:.83rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s;font-weight:500;text-align:left;white-space:nowrap;text-decoration:none;width:100%}
+.host-action-btn i{font-size:1rem;width:16px;text-align:center}
+.host-action-btn.wa{border-color:rgba(37,211,102,0.4);color:#4ee58a}
+.host-action-btn.wa:hover{background:rgba(37,211,102,0.12);border-color:#25D366}
+.host-action-btn.call{border-color:rgba(201,168,76,0.4);color:var(--gold-light)}
+.host-action-btn.call:hover{background:rgba(201,168,76,0.12);border-color:var(--gold)}
+.host-action-btn.pharma{border-color:rgba(40,167,69,0.4);color:var(--green-pharma)}
+.host-action-btn.pharma:hover{background:rgba(40,167,69,0.12);border-color:var(--green-pharma)}
+.host-action-btn.emerg{border-color:rgba(217,48,37,0.4);color:#D93025}
+.host-action-btn.emerg:hover{background:rgba(217,48,37,0.12);border-color:#D93025}
+
+.intro-strip {
+  position: relative;
+  z-index: 10;
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--border);
+  padding: 13px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .83rem;
+  color: rgba(255,255,255,0.55);
+}
+.intro-strip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%; 
+  left: 0; right: 0; height: 600px;
+  background: var(--navy-mid);
+  z-index: -1; 
+  pointer-events: none;
+}
+.intro-strip i{color:var(--gold);font-size:.9rem;flex-shrink:0}
+
+.page-section{display:none; animation:fadeIn 0.4s ease}
+.page-section.active{display:block}
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.container{max-width:680px;margin:0 auto;padding:20px 14px 80px}
+.media-row { display: flex; gap: 10px; margin-bottom: 20px; height: 230px; }
+.map-container { flex: 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--cream-dark); box-shadow: var(--shadow); background: #e0e0e0; display:flex; align-items:center; justify-content:center; color:#888;}
+.slider-container { flex: 1; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; border-radius: 12px; border: 1px solid var(--cream-dark); box-shadow: var(--shadow); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.slider-container::-webkit-scrollbar { display: none; }
+.slider-img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; scroll-snap-align: center; background: #ccc; }
+.desc-block{background:var(--white);border-radius:var(--radius);padding:22px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.desc-text{font-size:.9rem;color:var(--navy-mid);line-height:1.6;margin-bottom:16px}
+.desc-title{font-size:1.05rem;font-family:'Cormorant Garamond',serif;font-weight:700;color:var(--navy);margin:20px 0 8px;display:flex;align-items:center;gap:8px}
+.desc-title i {color:var(--gold-dim); font-size:0.9rem;}
+.wifi-box{background:var(--navy);border:1px solid var(--gold-dim);border-radius:var(--radius);padding:18px;margin-top:14px;color:white}
+.wifi-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(201,168,76,0.15)}
+.wifi-row:last-child{border-bottom:none;padding-bottom:0}
+.wifi-label{font-size:.75rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px}
+.wifi-value{font-size:1.1rem;font-weight:600;color:var(--gold-light);letter-spacing:0.03em}
+.btn-copy{background:rgba(201,168,76,0.15);border:1px solid var(--gold-dim);color:var(--gold-light);padding:8px 14px;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.btn-copy:hover{background:var(--gold);color:var(--navy)}
+.btn-copy.copied{background:#25D366;border-color:#25D366;color:white}
+.rules-intro { font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+.rules-group { margin-bottom: 20px; }
+.rules-group:last-child { margin-bottom: 0; }
+.rules-group-title { font-size: 1.05rem; font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.rule-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; font-size: 0.88rem; color: var(--navy-mid); line-height: 1.4; }
+.rule-item i { font-size: 1.1rem; color: var(--gold-dim); width: 22px; text-align: center; margin-top: 2px; flex-shrink: 0; }
+.trash-img { width: 100%; max-width: 400px; border-radius: 8px; margin-top: 10px; display: block; border: 1px solid rgba(201,168,76,0.2); background: #eee; }
+.section-card{background:var(--white);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border);}
+.section-header{display:flex;align-items:center;gap:14px;padding:17px 18px;cursor:pointer;user-select:none;transition:background .2s}
+.section-header:hover{background:var(--cream)}
+.section-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;color:white}
+.section-meta{flex:1}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;line-height:1.2;color:var(--navy)}
+.section-subtitle{font-size:.75rem;color:var(--muted);margin-top:2px;font-weight:400}
+.section-toggle{width:30px;height:30px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted);transition:transform .35s ease,background .2s,color .2s;flex-shrink:0}
+.section-card.open .section-toggle{transform:rotate(180deg);background:var(--navy);color:var(--gold)}
+.section-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.25,.46,.45,.94)}
+.section-card.open .section-body{max-height:4000px}
+.section-body-inner{padding:0 18px 20px;border-top:1px solid var(--cream-dark)}
+.direction-toggle { display: flex; background: var(--cream); padding: 4px; border-radius: 12px; margin: 16px 0; border: 1px solid var(--border); }
+.dir-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.dir-btn.active { background: var(--white); color: var(--navy); box-shadow: 0 2px 8px rgba(30,43,58,0.1); }
+.airport-title { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+.airport-title i { color: var(--gold); }
+.transport-block{margin-top:16px}
+.block-label{font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.block-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.transport-step{display:flex;gap:12px;margin-bottom:13px;align-items:flex-start}
+.step-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:5px}
+.step-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.step-connector{width:1px;flex:1;background:var(--border);margin:4px 0;min-height:14px}
+.step-content{flex:1}
+.step-title{font-size:.88rem;font-weight:600;margin-bottom:3px;color:var(--navy);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.step-desc{font-size:.81rem;color:var(--muted);line-height:1.55}
+.step-desc strong{color:var(--navy);font-weight:600}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700;letter-spacing:.02em;color:white}
+.badge-m1{background:#D93025}.badge-m2{background:#00A651}.badge-m3{background:#F5C400;color:#1a1a1a}.badge-m4{background:#0072CE}.badge-m5{background:#9B8EC4}
+.badge-tram{background:var(--navy-mid)}
+.badge-bus{background:#E47128}
+.badge-train{background:#5A5A5A}
+.highlights-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.highlight-item{background:var(--cream);border-radius:10px;padding:11px 12px;font-size:.8rem;border:1px solid var(--cream-dark);color:var(--navy);line-height:1.4}
+.highlight-item strong{display:block;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-dim);margin-bottom:3px;font-weight:700}
+.btn-map{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--navy);text-decoration:none;padding:13px 20px;border-radius:11px;font-weight:700;font-size:.87rem;margin-top:14px;transition:opacity .2s,transform .2s;letter-spacing:.03em;background:linear-gradient(135deg,var(--gold-light),var(--gold))}
+.btn-map:active{opacity:.85;transform:scale(0.98)}
+.divider{height:1px;background:var(--cream-dark);margin:14px 0}
+.btn-home-nav { background: var(--navy); color: var(--gold-light); margin: 0 0 20px 0; border: 1px solid var(--gold-dim); box-shadow: var(--shadow); }
+.btn-home-nav:hover { background: var(--navy-mid); }
+.tip-box{background:var(--navy);border:1px solid var(--gold-dim);border-radius:var(--radius);padding:18px;margin-top:20px}
+.tip-box-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:700}
+.tip-item{display:flex;gap:12px;margin-bottom:0;font-size:.83rem;line-height:1.55;color:rgba(255,255,255,0.78);padding:10px 0;border-bottom:1px solid rgba(201,168,76,0.1);align-items:flex-start}
+.tip-item:last-child{border-bottom:none;padding-bottom:0}
+.tip-item:first-child{padding-top:0}
+.tip-icon{width:28px;height:28px;border-radius:8px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.tip-icon i{color:var(--gold);font-size:.75rem}
+.tip-item strong{color:var(--gold-light)}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <img src="logo.png" alt="[Logo Appartamento]" class="sidebar-logo">
+  
+  <a class="menu-link active" id="nav-info" onclick="switchPage('info')">
+    <i class="fas fa-home"></i> <span data-i18n="nav_info">Info Appartamento</span>
+  </a>
+  <a class="menu-link" id="nav-transport" onclick="switchPage('transport')">
+    <i class="fas fa-subway"></i> <span data-i18n="nav_transport">Trasporti & Attrazioni</span>
+  </a>
+</div>
+
+<button class="top-fab fab-left" id="menu-fab" onclick="openMenu()" title="Menu">
+  <i class="fas fa-bars"></i>
+</button>
+
+<button class="top-fab fab-right" id="lang-fab" onclick="toggleLangDrawer()" title="Cambia lingua">
+  <i class="fas fa-language"></i>
+</button>
+<div class="lang-drawer" id="lang-drawer">
+  <button class="lang-btn active" data-lang="it">🇮🇹 Italiano</button>
+  <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+</div>
+
+<button class="host-fab" id="host-fab" onclick="toggleHostDrawer()" title="Contatta l'Host">
+  <i class="fab fa-whatsapp"></i>
+</button>
+<div class="host-drawer" id="host-drawer">
+  <div class="host-drawer-label" data-i18n="hostLabel">Il tuo Host</div>
+  <a href="#" class="host-action-btn wa">
+    <i class="fab fa-whatsapp"></i> WhatsApp
+  </a>
+  <a href="#" class="host-action-btn call">
+    <i class="fas fa-phone"></i> <span data-i18n="callHost">Chiama</span>
+  </a>
+</div>
+
+<button class="emerg-fab" id="emerg-fab" onclick="toggleEmergDrawer()" title="Numeri Utili">
+  <i class="fas fa-address-book"></i>
+</button>
+<div class="emerg-drawer" id="emerg-drawer">
+  <div class="emerg-drawer-label" data-i18n="phones_title">Numeri Utili</div>
+  <a href="#" class="host-action-btn call">
+    <i class="fas fa-taxi"></i> <span data-i18n="phone_taxi_short">Taxi: [Inserisci Numero]</span>
+  </a>
+  <a href="#" class="host-action-btn pharma">
+    <i class="fas fa-pills"></i> <span data-i18n="phone_pharma_short">Farmacia: [Inserisci Numero]</span>
+  </a>
+  <a href="#" class="host-action-btn emerg">
+    <i class="fas fa-star-of-life"></i> <span data-i18n="phone_emerg_short">Soccorso: [Inserisci Numero]</span>
+  </a>
+</div>
+
+<header class="header" id="main-header">
+  <div class="header-bg"></div>
+  <div class="header-dark-overlay"></div>
+  
+  <div class="header-content">
+    <div class="logo-wrap">
+      <img class="logo-img" src="logo.png" alt="[Logo Appartamento]">
+    </div>
+    
+    <div class="text-wrap">
+      <div class="header-eyebrow" data-i18n="eyebrow"> </div>
+      <h1 id="main-title" data-i18n="headline_info">Informazioni<br>Appartamento</h1>
+      <div class="header-address">[Il Tuo Indirizzo, La Tua Città]</div>
+      <div class="gold-line"></div>
+    </div>
+  </div>
+</header>
+
+<div id="page-info" class="page-section active">
+  <div class="container">
+    
+    <div class="media-row">
+      <div class="map-container">
+        <div style="text-align:center;">[Mappa Google]</div>
+      </div>
+      
+      <div class="slider-container" id="apt-slider">
+        <img src="foto1.avif" alt="[Foto Stanza 1]" class="slider-img">
+        <img src="foto2.avif" alt="[Foto Stanza 2]" class="slider-img">
+        <img src="foto3.avif" alt="[Foto Stanza 3]" class="slider-img">
+      </div>
+    </div>
+
+    <div class="desc-block">
+      <div class="desc-text" data-i18n="desc_p1">
+        [Inserisci qui una descrizione coinvolgente del tuo appartamento. Evidenzia i punti di forza, la vicinanza a luoghi di interesse, trasporti e servizi. Descrivi l'atmosfera e le comodità principali per convincere l'ospite.]
+      </div>
+      
+      <div class="desc-title"><i class="fas fa-door-open"></i> <span data-i18n="desc_t1">Lo spazio</span></div>
+      <div class="desc-text" data-i18n="desc_p2">
+        [Aggiungi dettagli sulle stanze, sui posti letto disponibili e su eventuali altri servizi esclusivi (es. balcone, parcheggio, elettrodomestici particolari). Specifica quante persone può ospitare comodamente.]
+      </div>
+
+      <div class="desc-title"><i class="fas fa-key"></i> <span data-i18n="desc_t2">Accesso per gli ospiti</span></div>
+      <div class="desc-text" data-i18n="desc_p3">
+        [Spiega come gli ospiti accederanno alla casa (es. self check-in, accoglienza di persona) e conferma che avranno l'uso esclusivo dello spazio.]
+      </div>
+    </div>
+
+    <div class="section-card" id="card-wifi">
+      <div class="section-header" onclick="toggleCard('card-wifi')">
+        <div class="section-icon" style="background:linear-gradient(135deg,#2196F3,#0d47a1)"><i class="fas fa-wifi"></i></div>
+        <div class="section-meta">
+          <div class="section-title" data-i18n="wifi_title">Wi-Fi & Internet</div>
+          <div class="section-subtitle" data-i18n="wifi_sub">Connessione rapida gratuita</div>
+        </div>
+        <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
+      </div>
+      <div class="section-body"><div class="section-body-inner" style="padding-top:10px;">
+        <div class="wifi-box">
+          <div class="wifi-row">
+            <div>
+              <div class="wifi-label">Rete (SSID)</div>
+              <div class="wifi-value">[NOME DELLA TUA RETE]</div>
+            </div>
+          </div>
+          <div class="wifi-row">
+            <div>
+              <div class="wifi-label">Password</div>
+              <div class="wifi-value" id="wifi-pass">[La_Tua_Password_123]</div>
+            </div>
+            <button class="btn-copy" id="btn-copy-wifi" onclick="copyWifi()">
+              <i class="fas fa-copy"></i> <span data-i18n="btn_copy">Copia</span>
+            </button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="section-card" id="card-rules">
+      <div class="section-header" onclick="toggleCard('card-rules')">
+        <div class="section-icon" style="background:linear-gradient(135deg,#FF5A5F,#D93025)"><i class="fas fa-book-open"></i></div>
+        <div class="section-meta">
+          <div class="section-title" data-i18n="rules_title">Regole della Casa</div>
+          <div class="section-subtitle" data-i18n="rules_sub">Informazioni per un soggiorno perfetto</div>
+        </div>
+        <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
+      </div>
+      <div class="section-body"><div class="section-body-inner" style="padding-top:15px;">
+        
+        <div class="rules-intro" data-i18n="rules_intro">
+          [Testo introduttivo sulle regole della casa, es. "Ti preghiamo di trattare la casa con cura."]
+        </div>
+        
+        <div class="rules-group">
+          <div class="rules-group-title" data-i18n="rules_g1">Check-in e check-out</div>
+          <div class="rule-item"><i class="far fa-clock"></i> <div><span data-i18n="rule_checkin">Check-in: [Orario Inizio - Fine]</span></div></div>
+          <div class="rule-item"><i class="fas fa-sign-out-alt"></i> <div><span data-i18n="rule_checkout">Check-out entro le ore [Orario]</span></div></div>
+          <div class="rule-item"><i class="fas fa-key"></i> <div><span data-i18n="rule_selfin">[Tipologia Check-in, es. Self check-in]</span></div></div>
+        </div>
+
+        <div class="rules-group">
+          <div class="rules-group-title" data-i18n="rules_g2">Durante il soggiorno</div>
+          <div class="rule-item"><i class="fas fa-user-friends"></i> <div><span data-i18n="rule_guests">Massimo [X] ospiti</span></div></div>
+          <div class="rule-item"><i class="fas fa-paw"></i> <div><span data-i18n="rule_pets">[Regola Animali Domestici]</span></div></div>
+          <div class="rule-item"><i class="fas fa-glass-cheers"></i> <div><span data-i18n="rule_parties">[Regola Feste/Eventi]</span></div></div>
+          <div class="rule-item"><i class="fas fa-smoking-ban"></i> <div><span data-i18n="rule_smoke">[Regole sul fumo]</span></div></div>
+        </div>
+
+        <div class="rules-group">
+          <div class="rules-group-title" data-i18n="rules_g3">Regole aggiuntive</div>
+          <div class="rule-item"><i class="fas fa-info-circle"></i> <div><span data-i18n="rule_elev">[Regola personalizzata 1: es. chiudere l'ascensore]</span></div></div>
+          <div class="rule-item"><i class="fas fa-couch"></i> <div><span data-i18n="rule_5th">[Regola personalizzata 2: es. uso del divano letto o costi extra]</span></div></div>
+        </div>
+
+        <div class="rules-group">
+          <div class="rules-group-title" data-i18n="rules_g4">Prima della partenza</div>
+          <div class="rule-item"><i class="fas fa-shower"></i> <div><span data-i18n="rule_towels">[Regola asciugamani]</span></div></div>
+          <div class="rule-item">
+            <i class="fas fa-trash-alt"></i> 
+            <div>
+              <span data-i18n="rule_trash">[Istruzioni spazzatura]</span>
+            </div>
+          </div>
+          <div class="rule-item"><i class="fas fa-power-off"></i> <div><span data-i18n="rule_power">[Spegnere luci e apparecchi]</span></div></div>
+        </div>
+
+      </div></div>
+    </div>
+
+    <a href="#" class="btn-map" style="background:linear-gradient(135deg, #FF5A5F, #E61E4D); color: white; margin-top: 25px; box-shadow: var(--shadow);">
+      <i class="fab fa-airbnb" style="font-size: 1.3rem;"></i> <span data-i18n="btn_airbnb">Vedi l'annuncio su Airbnb</span>
+    </a>
+
+  </div>
+</div>
+
+<div id="page-transport" class="page-section">
+  
+  <div class="intro-strip">
+    <i class="fas fa-map-signs"></i>
+    <span data-i18n="intro">Top attrazioni e come raggiungerle con i mezzi pubblici. Tocca una sezione per espanderla.</span>
+  </div>
+
+  <div class="container">
+
+  <a href="#" class="btn-map btn-home-nav">
+    <i class="fas fa-location-arrow"></i> <span data-i18n="btn_take_me_home">Riportami all'Appartamento (da dove sono ora)</span>
+  </a>
+
+  <div class="section-card" id="card-airports">
+    <div class="section-header" onclick="toggleCard('card-airports')">
+      <div class="section-icon" style="background:linear-gradient(135deg,#0052cc,#003380)"><i class="fas fa-plane"></i></div>
+      <div class="section-meta">
+        <div class="section-title" data-i18n="air_title">Aeroporti & Trasferimenti</div>
+        <div class="section-subtitle" data-i18n="air_sub">[Aeroporto 1] · [Aeroporto 2] · [Stazione]</div>
+      </div>
+      <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="section-body"><div class="section-body-inner">
+      
+      <div class="direction-toggle">
+        <button class="dir-btn active" id="btn-arr" onclick="setDirection('arrival')" data-i18n="dir_arr">Arrivo (Verso l'appartamento)</button>
+        <button class="dir-btn" id="btn-dep" onclick="setDirection('departure')" data-i18n="dir_dep">Partenza (Verso l'aeroporto)</button>
+      </div>
+
+      <div id="content-arrival" style="display:block;">
+        <div class="airport-title"><i class="fas fa-plane-arrival"></i> <span data-i18n="lin">[Nome Aeroporto Principale]</span></div>
+        <div class="transport-step">
+          <div class="step-line"><div class="step-dot" style="background:#0072CE"></div></div>
+          <div class="step-content">
+            <div class="step-title" data-i18n="lin_a1_t">[Mezzo Pubblico, es. Treno] (Consigliata)</div>
+            <div class="step-desc" data-i18n="lin_a1_d">[Descrivi il percorso dall'aeroporto alla casa: fermate, tempi stimati, direzioni.]</div>
+          </div>
+        </div>
+        <a href="#" class="btn-map" style="margin-bottom: 30px;"><i class="fas fa-location-arrow"></i> <span data-i18n="btn_nav_apt">Naviga verso l'Appartamento</span></a>
+      </div>
+
+      <div id="content-departure" style="display:none;">
+        <div class="airport-title"><i class="fas fa-plane-departure"></i> <span data-i18n="lin">[Nome Aeroporto Principale]</span></div>
+        <div class="transport-step">
+          <div class="step-line"><div class="step-dot" style="background:#D93025"></div></div>
+          <div class="step-content">
+            <div class="step-title" data-i18n="lin_d1_t">[Mezzo Pubblico] (Consigliata)</div>
+            <div class="step-desc" data-i18n="lin_d1_d">[Descrivi il percorso inverso dalla casa verso l'aeroporto.]</div>
+          </div>
+        </div>
+        <a href="#" class="btn-map" style="margin-bottom: 30px;"><i class="fas fa-location-arrow"></i> <span data-i18n="btn_nav_air">Naviga verso l'Aeroporto</span></a>
+      </div>
+
+    </div></div>
+  </div>
+
+  <div class="section-card" id="card-duomo">
+    <div class="section-header" onclick="toggleCard('card-duomo')">
+      <div class="section-icon" style="background:linear-gradient(135deg,#D93025,#9B1515)"><i class="fas fa-place-of-worship"></i></div>
+      <div class="section-meta">
+        <div class="section-title" data-i18n="d_title">[Nome Attrazione Principale]</div>
+        <div class="section-subtitle" data-i18n="d_sub">[Punto di interesse 1] · [Punto di interesse 2]</div>
+      </div>
+      <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="section-body"><div class="section-body-inner">
+      <div class="transport-block">
+        <div class="block-label" data-i18n="how_arrive">Come arrivare</div>
+        <div class="transport-step">
+          <div class="step-line"><div class="step-dot" style="background:#D93025"></div><div class="step-connector"></div></div>
+          <div class="step-content">
+            <div class="step-title">[Mezzo Consigliato] <span data-i18n="d_m1_label">— Opzione consigliata</span></div>
+            <div class="step-desc" data-i18n="d_m1_desc">[Spiega come gli ospiti possono raggiungere facilmente questa zona partendo da casa tua.]</div>
+          </div>
+        </div>
+      </div>
+      <div class="highlights-grid">
+        <div class="highlight-item"><strong data-i18n="tip">Da non perdere</strong><span data-i18n="d_h1">[Suggerimento Turistico 1]</span></div>
+        <div class="highlight-item"><strong data-i18n="advice">Consiglio</strong><span data-i18n="d_h2">[Suggerimento Turistico 2]</span></div>
+      </div>
+      <a href="#" class="btn-map"><i class="fas fa-route"></i> <span data-i18n="d_btn">Portami qui</span></a>
+    </div></div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-box-title" data-i18n="tips_title">Consigli pratici</div>
+    <div class="tip-item">
+      <div class="tip-icon"><i class="fas fa-ticket-alt"></i></div>
+      <span data-i18n="tip1">[Spiega come funzionano i biglietti dei mezzi nella tua città, costi o app da usare.]</span>
+    </div>
+    <div class="tip-item">
+      <div class="tip-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <span data-i18n="tip2">[Indica la fermata dell'autobus o della metropolitana più vicina alla casa.]</span>
+    </div>
+  </div>
+
+  </div></div>
+
+<script>
+var T = {
+  it: {
+    eyebrow:"", headline_info:"Informazioni<br>Appartamento", headline_transp:"Scopri<br>la Città",
+    nav_info:"Info Appartamento", nav_transport:"Trasporti & Attrazioni",
+    hostLabel:"Il tuo Host", callHost:"Chiama",
+    intro:"Top attrazioni e come raggiungerle con i mezzi pubblici. Tocca una sezione per espanderla.",
+    how_arrive:"Come arrivare", how_move:"Come spostarsi nella zona",
+    tip:"Da non perdere", advice:"Consiglio", tips_title:"Consigli pratici",
+    
+    wifi_title:"Wi-Fi & Internet", wifi_sub:"Connessione rapida gratuita", btn_copy:"Copia", btn_copied:"Copiata!",
+    desc_t1:"Lo spazio", desc_t2:"Accesso per gli ospiti",
+    
+    // I testi sono già stati convertiti in placeholder direttamente nell'HTML,
+    // queste chiavi servono per la traduzione dinamica.
+    desc_p1:"[Inserisci qui una descrizione coinvolgente del tuo appartamento. Evidenzia i punti di forza, la vicinanza a luoghi di interesse, trasporti e servizi. Descrivi l'atmosfera e le comodità principali per convincere l'ospite.]",
+    desc_p2:"[Aggiungi dettagli sulle stanze, sui posti letto disponibili e su eventuali altri servizi esclusivi (es. balcone, parcheggio, elettrodomestici particolari). Specifica quante persone può ospitare comodamente.]",
+    desc_p3:"[Spiega come gli ospiti accederanno alla casa (es. self check-in, accoglienza di persona) e conferma che avranno l'uso esclusivo dello spazio.]",
+
+    rules_title: "Regole della Casa", rules_sub: "Informazioni per un soggiorno perfetto",
+    rules_intro: "[Testo introduttivo sulle regole della casa, es. 'Ti preghiamo di trattare la casa con cura.']",
+    rules_g1: "Check-in e check-out",
+    rule_checkin: "Check-in: [Orario Inizio - Fine]",
+    rule_checkout: "Check-out entro le ore [Orario]",
+    rule_selfin: "[Tipologia Check-in, es. Self check-in]",
+    rules_g2: "Durante il soggiorno",
+    rule_guests: "Massimo [X] ospiti",
+    rule_pets: "[Regola Animali Domestici]",
+    rule_parties: "[Regola Feste/Eventi]",
+    rule_smoke: "[Regole sul fumo]",
+    rules_g3: "Regole aggiuntive",
+    rule_elev: "[Regola personalizzata 1: es. chiudere l'ascensore]",
+    rule_5th: "[Regola personalizzata 2: es. uso del divano letto o costi extra]",
+    rules_g4: "Prima della partenza",
+    rule_towels: "[Regola asciugamani]",
+    rule_trash: "[Istruzioni spazzatura]",
+    rule_power: "[Spegnere luci e apparecchi]",
+
+    btn_take_me_home: "Riportami all'Appartamento (da dove sono ora)",
+    btn_airbnb: "Vedi l'annuncio su Airbnb",
+
+    phones_title:"Numeri Utili",
+    phone_taxi_short:"Taxi: [Inserisci Numero]",
+    phone_pharma_short:"Farmacia: [Inserisci Numero]",
+    phone_emerg_short:"Soccorso: [Inserisci Numero]",
+
+    air_title:"Aeroporti & Trasferimenti", air_sub:"[Aeroporto 1] · [Aeroporto 2] · [Stazione]",
+    dir_arr:"Arrivo (Verso l'appartamento)", dir_dep:"Partenza (Verso l'aeroporto)",
+    
+    lin:"[Nome Aeroporto Principale]",
+    lin_a1_t:"[Mezzo Pubblico] (Consigliata)", lin_a1_d:"[Descrivi il percorso dall'aeroporto alla casa: fermate, tempi stimati, direzioni.]",
+    lin_d1_t:"[Mezzo Pubblico] (Consigliata)", lin_d1_d:"[Descrivi il percorso inverso dalla casa verso l'aeroporto.]",
+    
+    btn_nav_apt: "Naviga verso l'Appartamento", btn_nav_air: "Naviga verso l'Aeroporto",
+
+    d_title:"[Nome Attrazione Principale]", d_sub:"[Punto di interesse 1] · [Punto di interesse 2]",
+    d_m1_label:"— Opzione consigliata",
+    d_m1_desc:"[Spiega come gli ospiti possono raggiungere facilmente questa zona partendo da casa tua.]",
+    d_h1:"[Suggerimento Turistico 1]", d_h2:"[Suggerimento Turistico 2]",
+    d_btn:"Portami qui",
+    
+    tip1:"[Spiega come funzionano i biglietti dei mezzi nella tua città, costi o app da usare.]",
+    tip2:"[Indica la fermata dell'autobus o della metropolitana più vicina alla casa.]"
+  },
+  en: {
+    // English placeholders to maintain app functionality if tested
+    eyebrow:"", headline_info:"Apartment<br>Information", headline_transp:"Discover<br>the City",
+    nav_info:"Apartment Info", nav_transport:"Transport & Attractions",
+    hostLabel:"Your Host", callHost:"Call",
+    intro:"Top attractions and how to reach them. Tap to expand.",
+    how_arrive:"How to get there", how_move:"Getting around",
+    tip:"Don't miss", advice:"Tip", tips_title:"Practical tips",
+    wifi_title:"Wi-Fi & Internet", wifi_sub:"Free fast connection", btn_copy:"Copy", btn_copied:"Copied!",
+    desc_t1:"The Space", desc_t2:"Guest Access",
+    desc_p1:"[Insert an engaging description of your apartment here. Highlight strengths, proximity to landmarks, etc.]",
+    desc_p2:"[Add details about rooms, beds available, and exclusive amenities.]",
+    desc_p3:"[Explain guest access and privacy.]",
+    rules_title: "House Rules", rules_sub: "Guidelines for a perfect stay",
+    rules_intro: "[Introductory text about house rules.]",
+    rules_g1: "Check-in and check-out",
+    rule_checkin: "Check-in: [Time]", rule_checkout: "Check-out before [Time]", rule_selfin: "[Check-in type]",
+    rules_g2: "During your stay",
+    rule_guests: "Maximum [X] guests", rule_pets: "[Pet rules]", rule_parties: "[Party rules]", rule_smoke: "[Smoking rules]",
+    rules_g3: "Additional rules",
+    rule_elev: "[Custom Rule 1]", rule_5th: "[Custom Rule 2]",
+    rules_g4: "Before you leave",
+    rule_towels: "[Towel rules]", rule_trash: "[Trash instructions]", rule_power: "[Turn off appliances]",
+    btn_take_me_home: "Take me back to the Apartment", btn_airbnb: "View on Airbnb",
+    phones_title:"Useful Numbers",
+    phone_taxi_short:"Taxi: [Insert Number]", phone_pharma_short:"Pharmacy: [Insert Number]", phone_emerg_short:"Emergency: [Insert Number]",
+    air_title:"Airports & Transfers", air_sub:"[Airport 1] · [Airport 2]",
+    dir_arr:"Arrival", dir_dep:"Departure",
+    lin:"[Main Airport Name]",
+    lin_a1_t:"[Transport Method]", lin_a1_d:"[Directions from airport to house.]",
+    lin_d1_t:"[Transport Method]", lin_d1_d:"[Directions from house to airport.]",
+    btn_nav_apt: "Navigate to Apartment", btn_nav_air: "Navigate to Airport",
+    d_title:"[Main Attraction]", d_sub:"[Point 1] · [Point 2]",
+    d_m1_label:"— Recommended", d_m1_desc:"[Directions to attraction from your house.]",
+    d_h1:"[Tourist Tip 1]", d_h2:"[Tourist Tip 2]", d_btn:"Take me there",
+    tip1:"[Public transport ticket info.]", tip2:"[Nearest stop info.]"
+  }
+};
+
+// Logica UI originale mantenuta
+function toggleCard(id) {
+  var card = document.getElementById(id);
+  var isOpen = card.classList.contains('open');
+  var cards = document.querySelectorAll('.section-card');
+  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('open'); }
+  if (!isOpen) { card.classList.add('open'); }
+}
+
+function setDirection(dir) {
+  document.getElementById('btn-arr').classList.remove('active');
+  document.getElementById('btn-dep').classList.remove('active');
+  document.getElementById('content-arrival').style.display = 'none';
+  document.getElementById('content-departure').style.display = 'none';
+
+  if (dir === 'arrival') {
+    document.getElementById('btn-arr').classList.add('active');
+    document.getElementById('content-arrival').style.display = 'block';
+  } else {
+    document.getElementById('btn-dep').classList.add('active');
+    document.getElementById('content-departure').style.display = 'block';
+  }
+}
+
+function openMenu() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-overlay').classList.add('open');
+  closeAllDrawers();
+}
+
+function closeMenu() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+function switchPage(pageId) {
+  document.getElementById('nav-info').classList.remove('active');
+  document.getElementById('nav-transport').classList.remove('active');
+  document.getElementById('nav-' + pageId).classList.add('active');
+  
+  var pages = document.querySelectorAll('.page-section');
+  for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
+  document.getElementById('page-' + pageId).classList.add('active');
+  
+  var titleEl = document.getElementById('main-title');
+  if(pageId === 'info') {
+    titleEl.setAttribute('data-i18n', 'headline_info');
+  } else {
+    titleEl.setAttribute('data-i18n', 'headline_transp');
+  }
+  
+  var currentLang = document.querySelector('.lang-btn.active').getAttribute('data-lang');
+  applyTranslations(currentLang);
+  closeMenu();
+  window.scrollTo(0,0);
+}
+
+function closeAllDrawers() {
+  document.getElementById('lang-drawer').classList.remove('open');
+  document.getElementById('host-drawer').classList.remove('open');
+  document.getElementById('emerg-drawer').classList.remove('open');
+}
+
+function toggleLangDrawer() {
+  var d = document.getElementById('lang-drawer');
+  var isOpen = d.classList.contains('open');
+  closeAllDrawers();
+  if(!isOpen) d.classList.add('open');
+}
+
+function toggleHostDrawer() {
+  var d = document.getElementById('host-drawer');
+  var isOpen = d.classList.contains('open');
+  closeAllDrawers();
+  if(!isOpen) d.classList.add('open');
+}
+
+function toggleEmergDrawer() {
+  var d = document.getElementById('emerg-drawer');
+  var isOpen = d.classList.contains('open');
+  closeAllDrawers();
+  if(!isOpen) d.classList.add('open');
+}
+
+document.addEventListener('click', function(e) {
+  var langDrawer = document.getElementById('lang-drawer');
+  var langFab = document.getElementById('lang-fab');
+  var hostDrawer = document.getElementById('host-drawer');
+  var hostFab = document.getElementById('host-fab');
+  var emergDrawer = document.getElementById('emerg-drawer');
+  var emergFab = document.getElementById('emerg-fab');
+
+  if (!langDrawer.contains(e.target) && !langFab.contains(e.target)) {
+    langDrawer.classList.remove('open');
+  }
+  if (!hostDrawer.contains(e.target) && !hostFab.contains(e.target)) {
+    hostDrawer.classList.remove('open');
+  }
+  if (!emergDrawer.contains(e.target) && !emergFab.contains(e.target)) {
+    emergDrawer.classList.remove('open');
+  }
+});
+
+function copyWifi() {
+  var passwordText = document.getElementById("wifi-pass").innerText;
+  navigator.clipboard.writeText(passwordText).then(function() {
+    var btn = document.getElementById("btn-copy-wifi");
+    var lang = document.querySelector('.lang-btn.active').getAttribute('data-lang');
+    
+    btn.classList.add("copied");
+    btn.innerHTML = '<i class="fas fa-check"></i> <span>' + T[lang].btn_copied + '</span>';
+    
+    setTimeout(function() {
+      btn.classList.remove("copied");
+      btn.innerHTML = '<i class="fas fa-copy"></i> <span>' + T[lang].btn_copy + '</span>';
+    }, 2000);
+  });
+}
+
+function applyTranslations(lang) {
+  var t = T[lang];
+  if (!t) return;
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var j = 0; j < els.length; j++) {
+    var key = els[j].getAttribute('data-i18n');
+    if (t[key] !== undefined) { els[j].innerHTML = t[key]; }
+  }
+  initHeaderPadding();
+}
+
+document.getElementById('lang-drawer').addEventListener('click', function(e) {
+  var btn = e.target.closest('.lang-btn');
+  if (!btn) return;
+  var lang = btn.getAttribute('data-lang');
+  
+  var btns = document.querySelectorAll('.lang-btn');
+  for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+  btn.classList.add('active');
+  
+  document.getElementById('lang-drawer').classList.remove('open');
+  applyTranslations(lang);
+});
+
+function initHeaderPadding() {
+  var currentScroll = document.documentElement.style.getPropertyValue('--scroll');
+  document.documentElement.style.setProperty('--scroll', '0');
+  var headerHeight = document.getElementById('main-header').offsetHeight;
+  document.body.style.paddingTop = headerHeight + 'px';
+  if(currentScroll !== '') { document.documentElement.style.setProperty('--scroll', currentScroll); }
+  handleScroll();
+}
+
+var maxScroll = 180; 
+function handleScroll() {
+  var scrollY = window.scrollY;
+  var progress = scrollY / maxScroll;
+  if (progress > 1) progress = 1;
+  if (progress < 0) progress = 0;
+  document.documentElement.style.setProperty('--scroll', progress);
+}
+
+window.addEventListener('scroll', handleScroll, { passive: true });
+window.addEventListener('resize', initHeaderPadding);
+
+document.addEventListener("DOMContentLoaded", function() {
+  applyTranslations('it');
+  setTimeout(initHeaderPadding, 50); 
+});
+
+</script>
+</body>
+</html>
