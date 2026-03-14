@@ -1,0 +1,44 @@
+:root {
+  /* TEMA 1: CLASSICO (Default) */
+  --gold:#C9A84C; --gold-light:#E8C97A; --gold-dim:#9A7A35;
+  --navy:#1E2B3A; --navy-mid:#2C3E52;
+  --cream:#F5F0E8; --cream-dark:#EDE6D6;
+  
+  --white:#FFFFFF; --muted:#8A8070;
+  --green-pharma: #28a745;
+  --scroll: 0;
+
+  /* Variabili automatiche calcolate in base al tema */
+  --border: color-mix(in srgb, var(--gold) 18%, transparent);
+  --shadow: 0 4px 24px color-mix(in srgb, var(--navy) 13%, transparent);
+  --drawer-bg: color-mix(in srgb, var(--navy) 92%, transparent);
+  --radius: 18px;
+}
+
+/* TEMA 2: OCEANO */
+[data-theme="ocean"] {
+  --navy: #003b46; --navy-mid: #07575b; 
+  --gold: #ff6b6b; --gold-light: #ff8e8b; --gold-dim: #c44d4d; 
+  --cream: #f4f9f9; --cream-dark: #c4dfe6;
+}
+
+/* TEMA 3: NATURA */
+[data-theme="nature"] {
+  --navy: #2c3e2e; --navy-mid: #3d5440; 
+  --gold: #d4a373; --gold-light: #e6ccb2; --gold-dim: #b58452; 
+  --cream: #fefae0; --cream-dark: #faedcd;
+}
+
+/* TEMA 4: BACCHE */
+[data-theme="berry"] {
+  --navy: #2d1b2e; --navy-mid: #442946; 
+  --gold: #d98a8a; --gold-light: #e8b3b3; --gold-dim: #b56b6b; 
+  --cream: #fcf9fc; --cream-dark: #f0e6f0;
+}
+
+/* TEMA 5: MONOCROMO */
+[data-theme="mono"] {
+  --navy: #222222; --navy-mid: #333333; 
+  --gold: #888888; --gold-light: #aaaaaa; --gold-dim: #666666; 
+  --cream: #f5f5f5; --cream-dark: #e0e0e0;
+}
