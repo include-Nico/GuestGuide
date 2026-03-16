@@ -116,7 +116,7 @@
   <div class="container">
     <div class="media-row">
       <div class="map-container">
-        <iframe src="https://maps.google.com/maps?q=Milano&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.2!2d9.1!3d45.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDI0JzAwLjAiTiA5wrAwNicwMC4wIkU!5e0!3m2!1sit!2sit!4v1625000000000!5m2!1sit!2sit" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
       <div class="slider-container" id="apt-slider">
         <img src="foto1.avif" alt="Appartamento" class="slider-img" onerror="this.style.display='none'">
@@ -212,27 +212,29 @@
       </div>
       <div class="section-body"><div class="section-body-inner">
         <div class="transport-block">
+          
           <div class="transport-step">
             <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div><div class="step-connector"></div></div>
             <div class="step-content">
               <div class="step-title">[Nome Ristorante Tipico] <span class="badge" style="background:var(--navy-mid)">Tipico</span></div>
-              <div class="step-desc">[Breve descrizione. Es: La migliore cucina locale della zona. A soli 5 minuti a piedi. Prenotazione consigliata!]</div>
+              <div class="step-desc">[Breve descrizione. Es: La migliore cucina locale della zona.]</div>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=[INSERISCI_INDIRIZZO_QUI]" target="_blank" class="btn-map btn-sm-nav">
+                <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
+              </a>
             </div>
           </div>
+
           <div class="transport-step">
             <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div><div class="step-connector"></div></div>
             <div class="step-content">
               <div class="step-title">[Nome Pizzeria] <span class="badge" style="background:#D93025">Pizzeria</span></div>
-              <div class="step-desc">[Breve descrizione. Es: Perfetta per una cena informale. Impasto leggerissimo.]</div>
+              <div class="step-desc">[Breve descrizione. Es: Perfetta per una cena informale.]</div>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=[INSERISCI_INDIRIZZO_QUI]" target="_blank" class="btn-map btn-sm-nav">
+                <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
+              </a>
             </div>
           </div>
-          <div class="transport-step">
-            <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div></div>
-            <div class="step-content">
-              <div class="step-title">[Nome Bar/Aperitivo] <span class="badge" style="background:#E47128">Aperitivo</span></div>
-              <div class="step-desc">[Breve descrizione. Es: Ideale per un drink al tramonto con vista spettacolare.]</div>
-            </div>
-          </div>
+
         </div>
         <a href="#" class="btn-map"><i class="fas fa-map-marked-alt"></i> <span data-i18n="btn_map_food">Vedi tutti sulla mappa</span></a>
       </div></div>
@@ -253,14 +255,10 @@
             <div class="step-line"><div class="step-dot" style="background:#00A651"></div><div class="step-connector"></div></div>
             <div class="step-content">
               <div class="step-title">[Nome Ristorante Partner] <span class="badge" style="background:#00A651">-10% Sconto</span></div>
-              <div class="step-desc">[Descrizione di come ottenere lo sconto. Es: Mostra questa guida.]</div>
-            </div>
-          </div>
-          <div class="transport-step">
-            <div class="step-line"><div class="step-dot" style="background:#00A651"></div></div>
-            <div class="step-content">
-              <div class="step-title">[Nome Bar Partner] <span class="badge" style="background:#00A651">Drink Omaggio</span></div>
-              <div class="step-desc">[Es: Prenota il tuo tavolo usando il link qui sotto per avere un drink di benvenuto gratuito.]</div>
+              <div class="step-desc">[Mostra questa guida per ottenere lo sconto.]</div>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=[INSERISCI_INDIRIZZO_QUI]" target="_blank" class="btn-map btn-sm-nav">
+                <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
+              </a>
             </div>
           </div>
         </div>
