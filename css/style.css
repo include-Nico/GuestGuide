@@ -202,6 +202,17 @@ body{
 .btn-home-nav { background: var(--navy); color: var(--gold-light); margin: 0 0 20px 0; border: 1px solid var(--gold-dim); box-shadow: var(--shadow); transition:all 0.4s ease;}
 .btn-home-nav:hover { background: var(--navy-mid); }
 
+/* NUOVA CLASSE PER PULSANTI DIREZIONI NELLE LISTE */
+.btn-nav-small {
+  display: inline-flex;
+  padding: 8px 14px;
+  font-size: 0.75rem;
+  margin-top: 10px;
+  width: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(201,168,76,0.3);
+}
+
 .tip-box{background:var(--navy);border:1px solid var(--gold-dim);border-radius:var(--radius);padding:18px;margin-top:20px; transition:all 0.4s ease;}
 .tip-box-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:700; transition:color 0.4s ease;}
 .tip-item{display:flex;gap:12px;margin-bottom:0;font-size:.83rem;line-height:1.55;color:rgba(255,255,255,0.78);padding:10px 0;border-bottom:1px solid color-mix(in srgb, var(--gold) 10%, transparent);align-items:flex-start}
