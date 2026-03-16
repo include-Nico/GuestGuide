@@ -116,7 +116,7 @@
   <div class="container">
     <div class="media-row">
       <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.2!2d9.1!3d45.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDI0JzAwLjAiTiA5wrAwNicwMC4wIkU!5e0!3m2!1sit!2sit!4v123456789" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2798.2!2d9.1!3d45.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDXCsDI0JzAwLjAiTiA5wrAwNicwMC4wIkU!5e0!3m2!1sit!2sit!4v1620000000000!5m2!1sit!2sit" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
       <div class="slider-container" id="apt-slider">
         <img src="foto1.avif" alt="Appartamento" class="slider-img" onerror="this.style.display='none'">
@@ -127,15 +127,15 @@
 
     <div class="desc-block">
       <div class="desc-text" data-i18n="desc_p1">
-        [Inserisci qui una descrizione coinvolgente del tuo appartamento...]
+        [Descrizione dell'appartamento...]
       </div>
       <div class="desc-title"><i class="fas fa-door-open"></i> <span data-i18n="desc_t1">Lo spazio</span></div>
       <div class="desc-text" data-i18n="desc_p2">
-        [Aggiungi dettagli sulle stanze e posti letto...]
+        [Dettagli sulle stanze...]
       </div>
       <div class="desc-title"><i class="fas fa-key"></i> <span data-i18n="desc_t2">Accesso per gli ospiti</span></div>
       <div class="desc-text" data-i18n="desc_p3">
-        [Spiega come gli ospiti accederanno alla casa...]
+        [Istruzioni di accesso...]
       </div>
     </div>
 
@@ -153,40 +153,18 @@
           <div class="wifi-row">
             <div>
               <div class="wifi-label">Rete (SSID)</div>
-              <div class="wifi-value">[NOME DELLA TUA RETE]</div>
+              <div class="wifi-value">[NOME RETE]</div>
             </div>
           </div>
           <div class="wifi-row">
             <div>
               <div class="wifi-label">Password</div>
-              <div class="wifi-value" id="wifi-pass">[La_Tua_Password_123]</div>
+              <div class="wifi-value" id="wifi-pass">[PASSWORD]</div>
             </div>
             <button class="btn-copy" id="btn-copy-wifi" onclick="copyWifi()">
               <i class="fas fa-copy"></i> <span data-i18n="btn_copy">Copia</span>
             </button>
           </div>
-        </div>
-      </div></div>
-    </div>
-
-    <div class="section-card" id="card-rules">
-      <div class="section-header" onclick="toggleCard('card-rules')">
-        <div class="section-icon" style="background:linear-gradient(135deg,#FF5A5F,#D93025)"><i class="fas fa-book-open"></i></div>
-        <div class="section-meta">
-          <div class="section-title" data-i18n="rules_title">Regole della Casa</div>
-          <div class="section-subtitle" data-i18n="rules_sub">Informazioni per un soggiorno perfetto</div>
-        </div>
-        <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
-      </div>
-      <div class="section-body"><div class="section-body-inner" style="padding-top:15px;">
-        <div class="rules-intro" data-i18n="rules_intro">[Testo introduttivo regole]</div>
-        <div class="rules-group">
-          <div class="rules-group-title" data-i18n="rules_g1">Check-in e check-out</div>
-          <div class="rule-item"><i class="far fa-clock"></i> <div><span data-i18n="rule_checkin">Check-in: [Orario]</span></div></div>
-        </div>
-        <div class="rules-group">
-          <div class="rules-group-title" data-i18n="rules_g2">Durante il soggiorno</div>
-          <div class="rule-item"><i class="fas fa-smoking-ban"></i> <div><span data-i18n="rule_smoke">[Regole sul fumo]</span></div></div>
         </div>
       </div></div>
     </div>
@@ -196,67 +174,26 @@
 <div id="page-food" class="page-section">
   <div class="intro-strip">
     <i class="fas fa-wine-glass-alt"></i>
-    <span data-i18n="food_intro">I nostri posti preferiti per mangiare e bere. Tocca per espandere.</span>
+    <span data-i18n="food_intro">I nostri posti preferiti per mangiare e bere.</span>
   </div>
-
   <div class="container">
-    
     <div class="section-card" id="card-food-fav">
       <div class="section-header" onclick="toggleCard('card-food-fav')">
         <div class="section-icon" style="background:linear-gradient(135deg,#F5C400,#D4A000); color: #1a1a1a;"><i class="fas fa-heart"></i></div>
         <div class="section-meta">
           <div class="section-title" data-i18n="food_fav_title">I nostri preferiti</div>
-          <div class="section-subtitle" data-i18n="food_fav_sub">Locali testati e approvati da noi</div>
-        </div>
-        <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
-      </div>
-      <div class="section-body"><div class="section-body-inner">
-        <div class="transport-block">
-          
-          <div class="transport-step">
-            <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div><div class="step-connector"></div></div>
-            <div class="step-content">
-              <div class="step-title">[Nome Ristorante Tipico] <span class="badge" style="background:var(--navy-mid)">Tipico</span></div>
-              <div class="step-desc">[Breve descrizione. Es: La migliore cucina locale della zona.]</div>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=[Indirizzo+Ristorante]" target="_blank" class="btn-map btn-nav-small">
-                <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="transport-step">
-            <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div><div class="step-connector"></div></div>
-            <div class="step-content">
-              <div class="step-title">[Nome Pizzeria] <span class="badge" style="background:#D93025">Pizzeria</span></div>
-              <div class="step-desc">[Breve descrizione. Es: Perfetta per una cena informale.]</div>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=[Indirizzo+Pizzeria]" target="_blank" class="btn-map btn-nav-small">
-                <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
-              </a>
-            </div>
-          </div>
-
-        </div>
-        <a href="#" class="btn-map"><i class="fas fa-map-marked-alt"></i> <span data-i18n="btn_map_food">Vedi tutti sulla mappa</span></a>
-      </div></div>
-    </div>
-
-    <div class="section-card" id="card-food-spons">
-      <div class="section-header" onclick="toggleCard('card-food-spons')">
-        <div class="section-icon" style="background:linear-gradient(135deg,#00A651,#007A3D)"><i class="fas fa-tag"></i></div>
-        <div class="section-meta">
-          <div class="section-title" data-i18n="food_spons_title">Sconti per i nostri ospiti</div>
-          <div class="section-subtitle" data-i18n="food_spons_sub">Convenzioni speciali nei dintorni</div>
+          <div class="section-subtitle" data-i18n="food_fav_sub">Locali testati e approvati</div>
         </div>
         <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
       </div>
       <div class="section-body"><div class="section-body-inner">
         <div class="transport-block">
           <div class="transport-step">
-            <div class="step-line"><div class="step-dot" style="background:#00A651"></div><div class="step-connector"></div></div>
+            <div class="step-line"><div class="step-dot"></div><div class="step-connector"></div></div>
             <div class="step-content">
-              <div class="step-title">[Nome Ristorante Partner] <span class="badge" style="background:#00A651">-10% Sconto</span></div>
-              <div class="step-desc">[Mostra questa guida per avere lo sconto.]</div>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=[Indirizzo+Partner]" target="_blank" class="btn-map btn-nav-small">
+              <div class="step-title">[Nome Ristorante] <span class="badge" style="background:var(--navy-mid)">Tipico</span></div>
+              <div class="step-desc">[Descrizione...]</div>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=[INDIRIZZO]" target="_blank" class="btn-map btn-sm-nav">
                 <i class="fas fa-location-arrow"></i> <span data-i18n="btn_directions">Indicazioni</span>
               </a>
             </div>
@@ -264,19 +201,17 @@
         </div>
       </div></div>
     </div>
-
   </div>
 </div>
 
 <div id="page-transport" class="page-section">
   <div class="intro-strip">
     <i class="fas fa-map-signs"></i>
-    <span data-i18n="intro">Top attrazioni e come raggiungerle. Tocca per espandere.</span>
+    <span data-i18n="intro">Top attrazioni e come raggiungerle.</span>
   </div>
-
   <div class="container">
-    <a href="https://www.google.com/maps/dir/?api=1&destination=[Indirizzo+Casa]" target="_blank" class="btn-map btn-home-nav">
-      <i class="fas fa-location-arrow"></i> <span data-i18n="btn_take_me_home">Riportami all'Appartamento</span>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=[INDIRIZZO_CASA]" target="_blank" class="btn-map btn-home-nav">
+      <i class="fas fa-home"></i> <span data-i18n="btn_take_me_home">Torna all'Appartamento</span>
     </a>
 
     <div class="section-card" id="card-airports">
@@ -284,14 +219,64 @@
         <div class="section-icon" style="background:linear-gradient(135deg,#0052cc,#003380)"><i class="fas fa-plane"></i></div>
         <div class="section-meta">
           <div class="section-title" data-i18n="air_title">Aeroporti & Trasferimenti</div>
-          <div class="section-subtitle" data-i18n="air_sub">[Aeroporto 1] · [Aeroporto 2] · [Stazione]</div>
+          <div class="section-subtitle">[Aeroporto 1] · [Aeroporto 2]</div>
         </div>
         <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
       </div>
-      <div class="section-body"><div class="section-body-inner" style="padding-top:20px;">
-        <div style="text-align:center; color:var(--muted); font-size:0.9rem;">[Inserire i collegamenti di trasporto qui]</div>
+      <div class="section-body"><div class="section-body-inner">
+         <div class="transport-block">
+            <div class="transport-step">
+               <div class="step-line"><div class="step-dot"></div></div>
+               <div class="step-content">
+                  <div class="step-title" data-i18n="lin">[Aeroporto]</div>
+                  <div class="step-desc" data-i18n="lin_a1_d">[Descrizione percorso...]</div>
+               </div>
+            </div>
+         </div>
       </div></div>
     </div>
+
+    <div class="section-card" id="card-attractions">
+      <div class="section-header" onclick="toggleCard('card-attractions')">
+        <div class="section-icon" style="background:linear-gradient(135deg,#8E44AD,#2C3E50)"><i class="fas fa-camera-retro"></i></div>
+        <div class="section-meta">
+          <div class="section-title" data-i18n="d_title">Località da Visitare</div>
+          <div class="section-subtitle" data-i18n="d_sub">Cultura, panorami e storia</div>
+        </div>
+        <div class="section-toggle"><i class="fas fa-chevron-down"></i></div>
+      </div>
+      <div class="section-body"><div class="section-body-inner">
+        <div class="transport-block">
+          <div class="transport-step">
+            <div class="step-line"><div class="step-dot" style="background:var(--gold)"></div><div class="step-connector"></div></div>
+            <div class="step-content">
+              <div class="step-title">[Nome Attrazione] <span class="badge" style="background:#E67E22">Must See</span></div>
+              <div class="step-desc" data-i18n="d_m1_desc">[Descrizione: Es. Piazza Duomo è il cuore pulsante della città...]</div>
+              
+              <div class="block-label" style="margin-top:12px"><i class="fas fa-walking"></i> Come arrivarci</div>
+              <div class="step-desc">[Prendi la Metro Linea X per 4 fermate, scendi a...]</div>
+              
+              <a href="https://www.google.com/maps/dir/?api=1&destination=[COORDINATE_ATTRAZIONE]" target="_blank" class="btn-map btn-sm-nav">
+                <i class="fas fa-directions"></i> <span data-i18n="d_btn">Portami qui</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box">
+          <div class="tip-box-title" data-i18n="tips_title">Consigli per la zona</div>
+          <div class="tip-item">
+            <div class="tip-icon"><i class="fas fa-ticket-alt"></i></div>
+            <div class="tip-content"><strong data-i18n="advice">Consiglio:</strong> <span data-i18n="d_h1">Prenota i biglietti online per evitare code.</span></div>
+          </div>
+          <div class="tip-item">
+            <div class="tip-icon"><i class="fas fa-clock"></i></div>
+            <div class="tip-content"><strong data-i18n="tip">Da non perdere:</strong> <span data-i18n="d_h2">Visita la zona al tramonto per le foto migliori.</span></div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
   </div>
 </div>
 
