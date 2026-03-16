@@ -42,13 +42,14 @@ const T = {
     phone_pharma_short:"Farmacia: [Inserisci Numero]",
     phone_emerg_short:"Soccorso: [Inserisci Numero]",
 
-    // NUOVI TESTI RISTORANTI
+    // TESTI RISTORANTI & MAPS
     food_intro: "I nostri posti preferiti per mangiare e bere. Tocca per espandere.",
     food_fav_title: "I nostri preferiti",
     food_fav_sub: "Locali testati e approvati da noi",
     food_spons_title: "Sconti per i nostri ospiti",
     food_spons_sub: "Convenzioni speciali nei dintorni",
     btn_map_food: "Vedi tutti sulla mappa",
+    btn_directions: "Indicazioni",
 
     air_title:"Aeroporti & Trasferimenti", air_sub:"[Aeroporto 1] · [Aeroporto 2] · [Stazione]",
     dir_arr:"Arrivo", dir_dep:"Partenza",
@@ -95,13 +96,13 @@ const T = {
     phones_title:"Useful Numbers",
     phone_taxi_short:"Taxi: [Insert Number]", phone_pharma_short:"Pharmacy: [Insert Number]", phone_emerg_short:"Emergency: [Insert Number]",
     
-    // NUOVI TESTI RISTORANTI (EN)
     food_intro: "Our favorite places to eat and drink. Tap to expand.",
     food_fav_title: "Our Favorites",
     food_fav_sub: "Tested and approved by us",
     food_spons_title: "Discounts for guests",
     food_spons_sub: "Special deals nearby",
     btn_map_food: "View all on map",
+    btn_directions: "Directions",
 
     air_title:"Airports & Transfers", air_sub:"[Airport 1] · [Airport 2]",
     dir_arr:"Arrival", dir_dep:"Departure",
